@@ -1,0 +1,23 @@
+opam-version: "2.0"
+name: "pegthing"
+version: "0.1"
+synopsis: "A simple game"
+description: """
+A terminal version of the pegthing game
+"""
+maintainer: "Alex Lopez <alex.lopez.zorzano@gmail.com>"
+authors: "Alex Lopez <alex.lopez.zorzano@gmail.com>"
+depends: [
+  "base-bigarray" {= "base"}
+  "base-bytes" {= "base"}
+  "base-threads" {= "base"}
+  "base-unix" {= "base"}
+  "conf-m4" {= "1"}
+  "dune" {= "2.7.1"}
+  "ocaml" {= "4.11.1"}
+  "ocaml-base-compiler" {= "4.11.1"}
+  "ocamlfind" {= "1.8.1"}
+  "ounit2" {= "2.2.3"}
+  "stdlib-shims" {= "0.1.0"}
+]
+build: ["dune" "build" "-p" name "-j" jobs]
