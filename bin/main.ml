@@ -61,7 +61,4 @@ and game_over board =
   then start_game ()
   else print_string "Bye!\n"
 
-
-
-let () =
-  start_game ()
+let () = start_game ()

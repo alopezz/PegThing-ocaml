@@ -197,4 +197,3 @@ let render_board board =
 (** Player interaction **)
 let pos_of_letter letter =
   Char.code letter - 96
-
