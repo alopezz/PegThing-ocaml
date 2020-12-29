@@ -66,7 +66,6 @@ let connect board max_pos pos neighbor destination =
          [(pos, destination); (destination, pos)]
   else board
 
-
 let connect_right max_pos pos board =
   let neighbor = pos + 1 in
   let destination = neighbor + 1 in
@@ -194,6 +193,14 @@ let render_board board =
      (List.init n_rows ((+) 1) |> List.map (render_row board))
    ^ "\n")
 
-(** Player interaction **)
+(** Letter based interface **)
 let pos_of_letter letter =
   Char.code letter - 96
+
+let make_move p1 p2 board =
+  make_move (pos_of_letter p1) (pos_of_letter p2) board
+
+let remove_peg pos board =
+  remove_peg (pos_of_letter pos) board
+
+

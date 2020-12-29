@@ -19,8 +19,7 @@ and prompt_empty_peg board =
   print_board board;
   print_string "Remove which peg? [e]";
   print_newline ();
-  let position = Scanf.sscanf (get_input ~default:"e" ()) "%c"
-                   (fun c -> Pegthing.pos_of_letter c) in
+  let position = Scanf.sscanf (get_input ~default:"e" ()) "%c" Fun.id in
   Pegthing.remove_peg position board
 
 and prompt_rows () =
@@ -36,8 +35,7 @@ and prompt_move board =
   print_string "Move from where to where? Enter two letters:";
   print_newline ();
   let p1, p2 = Scanf.sscanf (get_input ()) "%c%c"
-                 (fun a b -> (Pegthing.pos_of_letter a,
-                              Pegthing.pos_of_letter b)) in
+                 (fun a b -> (a, b)) in
   match Pegthing.make_move p1 p2 board with
   | Some new_board -> (user_entered_valid_move new_board)
   | None -> (user_entered_invalid_move board)
