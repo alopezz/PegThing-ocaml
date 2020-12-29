@@ -42,8 +42,6 @@ let row_num pos =
 
 type peg = {is_pegged: bool; connections: (int * int) list}
 
-(* Later: make a functor to create boards of arbitrary sizes *)
-
 module IntMap = Map.Make(Int)
 
 type board = peg IntMap.t
@@ -159,11 +157,13 @@ let can_move board =
 (** ***Board representation*** **)
 let letter_for_pos pos = Char.chr (pos + 96)
 
-(* TODO implement colorization *)
 let render_pos board pos =
+  let open Colorize in
   Printf.sprintf "%c%s"
     (letter_for_pos pos)
-    (if is_pegged pos board then "0" else "-")
+    (if is_pegged pos board
+     then colorize ~fg:Blue "0"
+     else colorize ~fg:Red "-")
 
 (* Return all positions for given row *)
 let row_positions row_num =
