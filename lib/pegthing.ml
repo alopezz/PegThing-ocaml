@@ -147,7 +147,9 @@ let letter_for_pos pos = Char.chr (pos + 96)
 
 (* TODO implement colorization *)
 let render_pos board pos =
-  if is_pegged pos board then "0" else "-"
+  Printf.sprintf "%c%s"
+    (letter_for_pos pos)
+    (if is_pegged pos board then "0" else "-")
 
 (* Return all positions for given row *)
 let row_positions row_num =
@@ -158,7 +160,7 @@ let row_positions row_num =
 let pos_chars = 3
 
 let row_padding row_num rows =
-  let pad_length = rows - row_num in
+  let pad_length = (rows - row_num) * pos_chars / 2 in
   List.init pad_length (fun _ -> " ") |> String.concat ""
 
 let num_rows board =
