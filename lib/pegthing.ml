@@ -53,30 +53,34 @@ type board = peg IntMap.t
    be created with is_pegged = true *)
 let connect board max_pos pos neighbor destination =
   if destination <= max_pos
-  then List.fold_left (fun new_board (p1, p2) ->
+  then List.fold_left
+         (fun new_board (p1, p2) ->
            let my_peg = match IntMap.find_opt p1 new_board with
              | Some(p) -> p
              | None -> {is_pegged=true; connections=[]}
            in
-           IntMap.add p1 {my_peg with connections=(p2, neighbor)::my_peg.connections} new_board)
-             board [(pos, destination);(destination, pos)]
+           IntMap.add p1 {my_peg with
+               connections=(p2, neighbor)::my_peg.connections}
+             new_board)
+         board
+         [(pos, destination); (destination, pos)]
   else board
 
 
-let connect_right board max_pos pos =
+let connect_right max_pos pos board =
   let neighbor = pos + 1 in
   let destination = neighbor + 1 in
   if (is_triangular neighbor) || (is_triangular pos)
   then board
   else (connect board max_pos pos neighbor destination)
 
-let connect_down_left board max_pos pos =
+let connect_down_left max_pos pos board =
   let row = row_num pos in
   let neighbor = row + pos in
   let destination = row + neighbor + 1 in
   connect board max_pos pos neighbor destination
 
-let connect_down_right board max_pos pos =
+let connect_down_right max_pos pos board =
   let row = row_num pos in
   let neighbor = row + pos + 1 in
   let destination = row + neighbor + 2 in
@@ -84,9 +88,13 @@ let connect_down_right board max_pos pos =
 
 (* Peg the position and perform connections *)
 let add_pos board max_pos pos =
+  let board = match IntMap.find_opt pos board with
+    | Some _ -> board
+    | None -> IntMap.add pos {is_pegged=true; connections=[]} board
+  in
   List.fold_left
     (fun new_board create_connections ->
-      (create_connections new_board max_pos pos))
+      create_connections max_pos pos new_board)
     board
     [connect_right; connect_down_left; connect_down_right]
 
