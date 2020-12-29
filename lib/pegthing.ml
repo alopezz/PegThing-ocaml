@@ -105,6 +105,12 @@ let new_board rows =
 let is_pegged pos board =
   (IntMap.find pos board).is_pegged
 
+(** How many pegs (pegged positions) are in the board? *)
+let num_of_pegs board =
+  IntMap.filter
+    (fun pos _ -> is_pegged pos board)
+    board |> IntMap.cardinal
+
 let set_peg board pos state =
   let the_peg = (IntMap.find pos board) in
   IntMap.add pos {the_peg with is_pegged=state} board
@@ -141,6 +147,7 @@ let can_move board =
   IntMap.exists
     (fun pos _ ->
       is_pegged pos board && List.length (valid_moves pos board) > 0)
+    board
 
 (** ***Board representation*** **)
 let letter_for_pos pos = Char.chr (pos + 96)
